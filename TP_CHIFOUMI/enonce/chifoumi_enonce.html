@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CHIFOUMI</title>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+            }
+
+            #message {
+                color: rgb(235, 24, 24);
+                font-weight: bold;
+                font-size: 25px;
+            }
+
+        </style>
+    </head>
+
+    <body>
+
+        <!-- div qui va recevoir le message du résultat du jeu -->
+        <section>
+            <div>Choix Humain : <span id="humain"></span></div>
+            <div>Choix PC : <span id="ordi"></span></div>
+        </section>
+
+        <!-- div qui va recevoir le message du résultat du jeu -->
+        <div id="message"></div>
+
+        <!-- Boutons pour jouer au jeu -->
+        <div>
+            <button id="pierre">Pierre</button>
+            <button id="papier">Papier</button>
+            <button id="ciseaux">Ciseaux</button>
+        </div>
+
+        <script>
+
+            // On récupère dans la constante "humain" la div qui a pour ID "humain"   
+
+            const humain = document.getElementById("humain");
+
+
+            // On récupère dans la constante "pc" la div qui a pour ID "ordi"   
+
+            const pc = document.getElementById("ordi");
+
+            // On récupère dans la constante "message" la div qui a pour ID "message"   
+
+            const message = document.getElementById("message");
+
+            // Fonction qui permet de récupérer le choix de l'ordinateur
+            function choixOrdinateur() {
+                // Tableau des choix possibles
+                const choix = ['pierre', 'papier', 'ciseaux'];
+
+                // constante qui va générer un nombre aléatoire entre 0 et 2
+                const aleat = Math.floor(Math.random() * choix.length);
+
+                // on écrit le choix de l'ordinateur dans la div dont l'ID est "ordi"
+                pc.innerText = choix[aleat];
+
+                // retour du choix de l'ordinateur
+                return choix[aleat];
+
+            }
+
+            // Fonction qui pêrmet de déterminer le gagnant
+            function gagnant(choixUtilisateur, choixOrdinateur) {
+
+                // Si le choix de l'utilisateur est identique au choix de l'ordinateur
+                if (choixUtilisateur === choixOrdinateur) {
+                    // on écrit EN ORANGE le message "Égalité !" dans la div dont l'ID est "message"
+
+                    message.innerHTML = "Égalité !";
+                    message.style.color = "orange";
+
+                }
+                // toutes les manières possibles pour que l'utilisateur gagne
+                else if (
+                    /* SI l'utilisateur choisit "pierre" et que l'ordinateur choisit "ciseaux"
+                    ou SI l'utilisateur choisit "papier" et que l'ordinateur choisit "pierre"
+                    OU SI l'utilisateur choisit "ciseaux" et que l'ordinateur choisit "papier" */
+
+                    (choixUtilisateur === 'pierre' && choixOrdinateur === 'ciseaux') ||
+                    (choixUtilisateur === 'papier' && choixOrdinateur === 'pierre') ||
+                    (choixUtilisateur === 'ciseaux' && choixOrdinateur === 'papier')
+
+                ) {
+                    // on écrit EN VERT le message "Vous avez gagné !" dans la div dont l'ID est "message"
+
+                    message.innerHTML = "Vous avez gagné !";
+                    message.style.color = "green";
+
+                } else {
+                    // on écrit EN ROUGE le message "Vous avez perdu !" dans la div dont l'ID est "message"
+
+                    message.innerHTML = "Vous avez perdu !";
+                    message.style.color = "red";
+
+                }
+            }
+
+            // Fonction principale pour jouer au jeu
+            function jouer(choixUtilisateur) {
+                // On récupère dans la constante "choixPC" le choix ce que retourne la fonction "choixOrdinateur()"
+
+                const choixPC = choixOrdinateur();
+
+                console.log(choixPC);
+
+                // On récupère dans la constante "resultat" ce que retourne la fonction "gagnant" 
+
+                const resultat = gagnant(choixUtilisateur, choixPC);
+
+            }
+
+            
+
+            /*------------------- Récupérer les boutons par leur ID ---------------------*/
+
+            // On récupère dans la constante "pierre" le bouton qui a pour ID "pierre"  
+            
+            const pierre = document.getElementById("pierre");
+
+            // On récupère dans la constante "papier" le bouton qui a pour ID "papier"
+
+            const papier = document.getElementById("papier");
+
+            // On récupère dans la constante "ciseaux" le bouton qui a pour ID "ciseaux"
+
+            const ciseaux = document.getElementById("ciseaux");
+
+            // On écoute l'événement "click" sur le bouton "pierre"
+
+            pierre.addEventListener('click', function () {
+
+                // on appelle la fonction "jouer" en lui passant en paramètre la chaîne de caractère "pierre"
+
+                jouer("pierre");
+
+                // on écrit le choix de l'utilisateur dans la div dont l'ID est "humain"
+
+                humain.innerHTML = "pierre";
+
+            });
+
+            // On écoute l'événement "click" sur le bouton "papier"
+
+            papier.addEventListener('click', function () {
+
+                // on appelle la fonction "jouer" en lui passant en paramètre la chaîne de caractère "papier"
+
+                jouer("papier");
+
+                // on écrit le choix de l'utilisateur dans la div dont l'ID est "humain"
+
+                humain.innerHTML = "papier";
+
+            });
+
+            // On écoute l'événement "click" sur le bouton "ciseaux" 
+
+            ciseaux.addEventListener('click', function () {
+
+                // on appelle la fonction "jouer" en lui passant en paramètre la chaîne de caractère "ciseaux"
+
+                jouer("ciseaux");
+
+                // on écrit le choix de l'utilisateur dans la div dont l'ID est "humain"
+
+                humain.innerHTML = "ciseaux";
+
+            });
+
+        </script>
+
+    </body>
+
+</html>
